@@ -14,10 +14,10 @@ muda para “concluído” e o funcionário digita o que foi feito para resolver
 
 # Funcionalidades desejadas
 
- - [ ] O sistema deverá permitir escolher de uma lista qual o funcionário que está usando o sistema
+ - [x] O sistema deverá permitir escolher de uma lista qual o funcionário que está usando o sistema
 naquele momento (facilitando para não precisar implementar mecanismos de login).
 
- - [ ] O sistema deverá permitir abrir um novo chamado. Cada chamado deve conter os dados descritos
+ - [x] O sistema deverá permitir abrir um novo chamado. Cada chamado deve conter os dados descritos
 na seção de detalhamento acima. O status de um chamado flui apenas em uma direção: aberto ->
 em andamento -> concluído.
 
