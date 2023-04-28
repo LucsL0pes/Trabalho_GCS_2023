@@ -14,7 +14,7 @@ public class SistemaSuporte {
         funcionarios.add(new Funcionario(2, "Maria", "Suporte"));
         funcionarios.add(new Funcionario(3, "Pedro", "Financeiro"));
         chamados.add(new Chamado(1, J, "martelo", "cabo removido"));
-
+        chamados.get(0).setFuncionarioAtendimento(funcionarios.get(1));
         // Selecionar funcionário
         Scanner scanner = new Scanner(System.in);
         System.out.println("Lista de funcionários:");
@@ -34,7 +34,29 @@ public class SistemaSuporte {
                 System.out.println("Lista de chamados:");
                 if (chamado.getFuncionarioAbertura().equals(funcionarioLogado)) {
                     System.out.println(" ID: " + chamado.getId() +
-                            ", data de abertura: " + chamado.getDataAbertura());
+                            ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
+                }
+            }
+            if(funcionarioLogado.getDepartamento() == "Suporte") {
+                System.out.println("Chamados em andamento: ");
+                for (Chamado chamado : chamados) {
+                    if (chamado.getFuncionarioAtendimento().equals(funcionarioLogado) && chamado.getStatus() == "Em andamento") {
+                        System.out.println(" ID: " + chamado.getId() +
+                                ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
+                    }
+                }
+                System.out.println("Digite qual chamado deseja atualizar: ");
+                int idChamado = scanner.nextInt();
+                scanner.nextLine();
+                System.out.println("Digite a resolução");
+                String resolucao = scanner.nextLine();
+                Chamado chamadoAtualizado = buscarChamadoPorId(idChamado);
+                if(chamadoAtualizado != null) {
+                    chamadoAtualizado.setStatusConcluido(resolucao);
+                    System.out.println(" ID: " + chamadoAtualizado.getId() +
+                    ", data de abertura: " + chamadoAtualizado.getDataAbertura() + ", status: " + chamadoAtualizado.getStatus() + ", resolucao: " + chamadoAtualizado.getResolucao());
+                } else {
+                    System.out.println("ID não encontrado");
                 }
             }
             System.out.println();
@@ -54,6 +76,14 @@ public class SistemaSuporte {
         for (Funcionario funcionario : funcionarios) {
             if (funcionario.getId() == id) {
                 return funcionario;
+            }
+        }
+        return null;
+    }
+    private static Chamado buscarChamadoPorId (int id) {
+        for (Chamado chamado: chamados) {
+            if (chamado.getId() == id) {
+                return chamado;
             }
         }
         return null;
