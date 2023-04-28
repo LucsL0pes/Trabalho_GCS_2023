@@ -70,6 +70,7 @@ class Chamado {
 
     public void setFuncionarioAtendimento(Funcionario funcionarioAtendimento) {
         this.funcionarioAtendimento = funcionarioAtendimento;
+        this.status = "Em andamento";
     }
 
     public LocalDate getDataConclusao() {
