@@ -20,7 +20,7 @@ public class SistemaSuporte {
         equipamentos.add(E);
         equipamentos.add(new Equipamento(2, "Impressora", LocalDate.of(2021, 3, 28), "Suporte"));
         equipamentos.add(new Equipamento(3, "Mesa de escritório", LocalDate.of(2019, 7, 6), "RH"));
-        chamados.add(new Chamado(1, J, "Computador-DESKTOP01", "Windows nao inicializa"));
+        chamados.add(new Chamado(1, J, E, "Windows nao inicializa"));
         chamados.get(0).setFuncionarioAtendimento(funcionarios.get(1));
 
         // Selecionar funcionário
@@ -69,14 +69,23 @@ public class SistemaSuporte {
                     case 1:
                     //cria um novo chamado
                     try {
-                    System.out.println("Informe o equipamento que necessita de suporte: ");
-                    scanner.nextLine();
-                    String equip = scanner.nextLine();
+                    System.out.println("Informe o id do equipamento que necessita de suporte: ");
+                    int equipId = scanner.nextInt();
                     System.out.println("Informe a descricao do problema: ");
+                    scanner.nextLine();
                     String desc = scanner.nextLine();
 
                     //o id cresce conforme a lista de chamados aumenta
                     int numChamado=chamados.size()+1;
+
+                    Equipamento equip = null;
+
+                    for (Equipamento e:equipamentos) {
+                        if(e.getIdentificador()==equipId){equip=e;}
+                    }
+
+                    if(equip==null){System.out.println("Equipamento nao encontrado");
+                        break;}
 
                     //adiciona o novo chamado na lista total de chamados
                     Chamado novoChamado = new Chamado(numChamado, funcionarioLogado, equip, desc);

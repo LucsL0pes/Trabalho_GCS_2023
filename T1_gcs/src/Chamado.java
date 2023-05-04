@@ -3,7 +3,7 @@ import java.time.LocalDate;
 class Chamado {
     private int id;
     private Funcionario funcionarioAbertura;
-    private String equipamento;
+    private Equipamento equipamento;
     private LocalDate dataAbertura;
     private String descricao;
     private String status;
@@ -12,7 +12,7 @@ class Chamado {
     private String resolucao;
 
     // Construtor
-    public Chamado(int id, Funcionario funcionarioAbertura, String equipamento, String descricao) {
+    public Chamado(int id, Funcionario funcionarioAbertura, Equipamento equipamento, String descricao) {
         this.id = id;
         this.funcionarioAbertura = funcionarioAbertura;
         this.equipamento = equipamento;
@@ -32,11 +32,11 @@ class Chamado {
         this.funcionarioAbertura = funcionarioAbertura;
     }
 
-    public String getEquipamento() {
+    public Equipamento getEquipamento() {
         return equipamento;
     }
 
-    public void setEquipamento(String equipamento) {
+    public void setEquipamento(Equipamento equipamento) {
         this.equipamento = equipamento;
     }
 
