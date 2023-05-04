@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
@@ -169,8 +170,21 @@ public class SistemaSuporte {
                         }
                         break;
                     case 5:
-                        // Listar chamados de um equipamento
+                        System.out.println("Informe o Id do equipamento");
+                        int id = scanner.nextInt();
+                        Equipamento equip = null;
+                        for (Equipamento e : equipamentos ) {
+                            if(e.getIdentificador()==id){
+                                equip=e;
+                            }
+                        }
+                        if(equip!=null){
+                            listarChamados(equip);
+                            break;
+                        }
+                        System.out.println("Nenhum chamado encontrado com esse ID");
                         break;
+                    
                     case 6:
                         // Localizar chamados por palavra-chave
                         break;
@@ -231,4 +245,21 @@ public class SistemaSuporte {
         }
         return null;
     }
+
+    public static void listarChamados(Equipamento equipamento) {
+       
+        ArrayList<Chamado> chamadosEquipamento = new ArrayList<Chamado>();
+
+        for (Chamado chamado : chamados) {
+            if (chamado.getEquipamento().equals(equipamento)) {
+                chamadosEquipamento.add(chamado);
+            }
+        }
+
+        for (Chamado chamado : chamadosEquipamento) {
+            System.out.println(chamado.toString());
+        }
+    }
+
 }
+

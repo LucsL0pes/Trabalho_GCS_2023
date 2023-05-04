@@ -109,4 +109,21 @@ class Chamado {
         this.dataConclusao = LocalDate.now(); // Data de conclusão é a data atual
         this.resolucao = resolucao;
     }
+
+    public String toString() {
+        String chamadoString = "ID: " + this.id + "\n";
+        chamadoString += "Funcionário de abertura: " + this.funcionarioAbertura.getNome() + "\n";
+        chamadoString += "Equipamento: " + this.equipamento.getDescricao() + "\n";
+        chamadoString += "Data de abertura: " + this.dataAbertura + "\n";
+        chamadoString += "Descrição: " + this.descricao + "\n";
+        chamadoString += "Status: " + this.status + "\n";
+        if (this.funcionarioAtendimento != null) {
+            chamadoString += "Funcionário de atendimento: " + this.funcionarioAtendimento.getNome() + "\n";
+        }
+        if (this.dataConclusao != null) {
+            chamadoString += "Data de conclusão: " + this.dataConclusao + "\n";
+            chamadoString += "Resolução: " + this.resolucao + "\n";
+        }
+        return chamadoString;
+    }
 }
