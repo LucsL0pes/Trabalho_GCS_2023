@@ -1,21 +1,28 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class SistemaSuporte {
     private static List<Funcionario> funcionarios = new ArrayList<>();
     private static List<Chamado> chamados = new ArrayList<>();
+    private static List<Equipamento> equipamentos = new ArrayList<>();
     private static Funcionario funcionarioLogado;
 
     public static void main(String[] args) {
-        // Inicializar lista de funcionários e chamados (exemplo)
+        // Inicializar lista de funcionários, equipamentos e chamados (exemplo)
         
         Funcionario J = new Funcionario(1, "João", "RH");
         funcionarios.add(J);
         funcionarios.add(new Funcionario(2, "Maria", "Suporte"));
         funcionarios.add(new Funcionario(3, "Pedro", "Financeiro"));
+        Equipamento E = new Equipamento(1, "Notebook", LocalDate.of(2020, 10, 15), "RH");
+        equipamentos.add(E);
+        equipamentos.add(new Equipamento(2, "Impressora", LocalDate.of(2021, 3, 28), "Suporte"));
+        equipamentos.add(new Equipamento(3, "Mesa de escritório", LocalDate.of(2019, 7, 6), "RH"));
         chamados.add(new Chamado(1, J, "Computador-DESKTOP01", "Windows nao inicializa"));
         chamados.get(0).setFuncionarioAtendimento(funcionarios.get(1));
+
         // Selecionar funcionário
         Scanner scanner = new Scanner(System.in);
         System.out.println("Lista de funcionários:");
@@ -111,9 +118,46 @@ public class SistemaSuporte {
                         break;
                     case 3:
                         // Mover equipamento para outro setor
+                        if(funcionarioLogado.getDepartamento().equals("Suporte")){ 
+                            System.out.println("Equipamentos disponiveis para mover de setor: ");
+                            for (Equipamento equipamento : equipamentos) {
+                                System.out.println("ID: " + equipamento.getIdentificador() +
+                                        ", Descrição: " + equipamento.getDescricao() +
+                                        ", Data de aquisição: " + equipamento.getDataAquisicao() + ", Setor: " + equipamento.getSetor());
+                            }
+                            
+                            System.out.println("Digite qual equipamento deseja mover: ");
+                            int identificador = scanner.nextInt();
+                            scanner.nextLine();
+                            Equipamento equipamentoAtualizado = buscarEquipamentoPorId(identificador);
+                            if(equipamentoAtualizado != null) {
+                                System.out.println("Informe o novo setor do equipamento: ");
+                                String novoSetor = scanner.nextLine();
+                                equipamentoAtualizado.setSetor(novoSetor);
+                                System.out.println(" ID: " + equipamentoAtualizado.getIdentificador() +
+                                ", Descrição: " + equipamentoAtualizado.getDescricao() +
+                                ", Data de aquisição: " + equipamentoAtualizado.getDataAquisicao() + ", Setor: " + equipamentoAtualizado.getSetor());
+                            } else {
+                                System.out.println("ID não encontrado");
+                            }
+                        }
+                        else{System.out.println("Voce nao possui permissão para mover equipamentos");}
                         break;
                     case 4:
                         // Pesquisar equipamentos por descrição
+                        System.out.println("Digite a descrição do equipamento a ser pesquisado: ");
+                        scanner.nextLine();
+                        String descricao = scanner.nextLine();
+                        Equipamento equipamentoEncontrado = buscarPorDescricao(descricao);
+                        if (equipamentoEncontrado == null) {
+                            System.out.println("Nenhum equipamento encontrado com a descrição " + descricao);
+                        } else {
+                        System.out.println("Equipamento encontrado:");
+                        System.out.println("ID: " + equipamentoEncontrado.getIdentificador() +
+                            ", Descrição: " + equipamentoEncontrado.getDescricao() +
+                            ", Data de aquisição: " + equipamentoEncontrado.getDataAquisicao() +
+                            ", Setor: " + equipamentoEncontrado.getSetor());
+                        }
                         break;
                     case 5:
                         // Listar chamados de um equipamento
@@ -155,6 +199,25 @@ public class SistemaSuporte {
         for (Chamado chamado: chamados) {
             if (chamado.getId() == id) {
                 return chamado;
+            }
+        }
+        return null;
+    }
+
+    // Método para buscar equipamento pela descricao
+    private static Equipamento buscarPorDescricao (String descricao) {
+        for (Equipamento equipamento: equipamentos) {
+            if (equipamento.getDescricao().equals(descricao)) {
+                return equipamento;
+            }
+        }
+        return null;
+    }
+
+    public static Equipamento buscarEquipamentoPorId(int identificador) {
+        for (Equipamento equipamento : equipamentos) {
+            if (equipamento.getIdentificador() == identificador) {
+                return equipamento;
             }
         }
         return null;
