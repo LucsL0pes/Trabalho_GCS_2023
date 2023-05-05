@@ -19,13 +19,16 @@ public class SistemaSuporte {
         funcionarios.add(J);
         funcionarios.add(new Funcionario(2, "Maria", "Suporte"));
         funcionarios.add(new Funcionario(3, "Pedro", "Financeiro"));
+        funcionarios.add(new Funcionario(4, "Lucas", "Diretoria"));
         Equipamento E = new Equipamento(1, "Notebook", LocalDate.of(2020, 10, 15), "RH");
         equipamentos.add(E);
         equipamentos.add(new Equipamento(2, "Impressora", LocalDate.of(2021, 3, 28), "Suporte"));
         equipamentos.add(new Equipamento(3, "Mesa de escritório", LocalDate.of(2019, 7, 6), "RH"));
+        equipamentos.add(new Equipamento(4, "Cadeira", LocalDate.of(2022, 8, 15), "Diretoria"));
         chamados.add(new Chamado(1, J, E, "Windows nao inicializa"));
+        chamados.add(new Chamado(2, J, E, "Tela Azul"));
         chamados.get(0).setFuncionarioAtendimento(funcionarios.get(1));
-
+        
         // Selecionar funcionário
         Scanner scanner = new Scanner(System.in);
         System.out.println("Lista de funcionários:");
