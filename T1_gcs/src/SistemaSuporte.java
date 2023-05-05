@@ -122,7 +122,7 @@ public class SistemaSuporte {
                                 chamadoAtualizado.setStatusConcluido(resolucao);
                                 System.out.println(" ID: " + chamadoAtualizado.getId() +
                                 ", data de abertura: " + chamadoAtualizado.getDataAbertura() + ", status: " + chamadoAtualizado.getStatus() + ", resolucao: " + chamadoAtualizado.getResolucao());
-                                //chamados.set(chamadoAtualizado.getId()-1, chamadoAtualizado);
+                                chamados.set(chamadoAtualizado.getId()-1, chamadoAtualizado);
                                 
                             } else {
                                 System.out.println("ID não encontrado");
