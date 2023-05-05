@@ -3,6 +3,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.util.stream.Collectors;
 
 public class SistemaSuporte {
     private static List<Funcionario> funcionarios = new ArrayList<>();
@@ -101,29 +102,31 @@ public class SistemaSuporte {
                     }
     
                     case 2:
-                    if(funcionarioLogado.getDepartamento().equals("Suporte")){ 
-                        System.out.println("Chamados em andamento: ");
-                        for (Chamado chamado : chamados) {
-                            if (chamado.getFuncionarioAtendimento().equals(funcionarioLogado) && chamado.getStatus().equals("Em andamento")) {
-                                System.out.println(" ID: " + chamado.getId() +
-                                        ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
+                        if(funcionarioLogado.getDepartamento().equals("Suporte")){ 
+                            System.out.println("Chamados em andamento: ");
+                            for (Chamado chamado : chamados) {
+                                if (chamado.getFuncionarioAtendimento().equals(funcionarioLogado) && chamado.getStatus().equals("Em andamento")) {
+                                    System.out.println(" ID: " + chamado.getId() +
+                                            ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
+                                }
+                            }
+                            
+                            System.out.println("Digite qual chamado deseja atualizar: ");
+                            int idChamado = scanner.nextInt();
+                            scanner.nextLine();
+                            System.out.println("Digite a resolução");
+                            String resolucao = scanner.nextLine();
+                            Chamado chamadoAtualizado = buscarChamadoPorId(idChamado);
+                            if(chamadoAtualizado != null) {
+                                chamadoAtualizado.setStatusConcluido(resolucao);
+                                System.out.println(" ID: " + chamadoAtualizado.getId() +
+                                ", data de abertura: " + chamadoAtualizado.getDataAbertura() + ", status: " + chamadoAtualizado.getStatus() + ", resolucao: " + chamadoAtualizado.getResolucao());
+                                chamados.set(chamadoAtualizado.getId()-1, chamadoAtualizado);
+                                
+                            } else {
+                                System.out.println("ID não encontrado");
                             }
                         }
-                        
-                        System.out.println("Digite qual chamado deseja atualizar: ");
-                        int idChamado = scanner.nextInt();
-                        scanner.nextLine();
-                        System.out.println("Digite a resolução");
-                        String resolucao = scanner.nextLine();
-                        Chamado chamadoAtualizado = buscarChamadoPorId(idChamado);
-                        if(chamadoAtualizado != null) {
-                            chamadoAtualizado.setStatusConcluido(resolucao);
-                            System.out.println(" ID: " + chamadoAtualizado.getId() +
-                            ", data de abertura: " + chamadoAtualizado.getDataAbertura() + ", status: " + chamadoAtualizado.getStatus() + ", resolucao: " + chamadoAtualizado.getResolucao());
-                        } else {
-                            System.out.println("ID não encontrado");
-                        }
-                    }
                     else{System.out.println("Voce nao possui permissão para atualizar status de chamado");}
                         break;
                     case 3:
@@ -190,6 +193,29 @@ public class SistemaSuporte {
                         break;
                     case 7:
                         // Visualizar painel de dados
+                        int total_chamados = chamados.size();
+                        int chamados_abertos = 0;
+                        int chamados_em_andamento = 0;
+                        int chamados_concluidos = 0;
+
+                        for (Chamado chamado : chamados) {
+                            if (chamado.getStatus().equals("Aberto")) {
+                                chamados_abertos++;
+                            }
+                            if (chamado.getStatus().equals("Em andamento")) {
+                                chamados_em_andamento++;
+                            }
+                            if (chamado.getStatus().equals("Concluído")) {
+                                chamados_concluidos++;
+                            }
+                        }
+
+                        System.out.println("Numeros: " + chamados_abertos + " " + chamados_em_andamento + " " + chamados_concluidos);
+                        for (Chamado chamado : chamados) {
+                            System.out.println("ID: " + chamado.getId() +
+                                    ", Data de abertura: " + chamado.getDataAbertura() +
+                                    ", Status: " + chamado.getStatus());
+                        }
                         break;
                     case 8:
                         // Funcionalidade adicional 1
