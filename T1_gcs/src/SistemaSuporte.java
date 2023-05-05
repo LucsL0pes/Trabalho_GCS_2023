@@ -59,8 +59,8 @@ public class SistemaSuporte {
                 System.out.println("5) Listar chamados de um equipamento");
                 System.out.println("6) Localizar chamados por palavra-chave");
                 System.out.println("7) Visualizar painel de dados");
-                System.out.println("8) Funcionalidade adicional 1");
-                System.out.println("9) Funcionalidade adicional 2");
+                System.out.println("8) Criacao de um novo equipamento");
+                System.out.println("9) Criacao de um novo funcionario no sistema");
                 System.out.println("0) Sair");
 
                 int opcao = scanner.nextInt();
@@ -136,7 +136,7 @@ public class SistemaSuporte {
                                         ", Data de aquisição: " + equipamento.getDataAquisicao() + ", Setor: " + equipamento.getSetor());
                             }
                             
-                            System.out.println("Digite qual equipamento deseja mover: ");
+                            System.out.println("Digite o id do equipamento deseja mover: ");
                             int identificador = scanner.nextInt();
                             scanner.nextLine();
                             Equipamento equipamentoAtualizado = buscarEquipamentoPorId(identificador);
@@ -186,17 +186,67 @@ public class SistemaSuporte {
                         break;
                     
                     case 6:
-                        // Localizar chamados por palavra-chave
+                        //  Localizar chamados por palavra-chave
                         break;
                     case 7:
-                        // Visualizar painel de dados
+                        //  Visualizar painel de dados
                         break;
                     case 8:
-                        // Funcionalidade adicional 1
-                        break;
+                        if(funcionarioLogado.getDepartamento().equals("Suporte")) {
+                            //  Cria um novo equipamento
+                            try {
+                                System.out.println("Informe a descricao do equipamento: ");
+                                scanner.nextLine();
+                                String desc = scanner.nextLine();
+                                System.out.println("Informe a data de aquisicao do equipamento (ano, mes, dia): ");
+                                int year = scanner.nextInt();
+                                int month = scanner.nextInt();
+                                int day = scanner.nextInt();
+                                scanner.nextLine();
+                                System.out.println("Informe o setor responsavel pelo equipamento: ");
+                                String setor = scanner.nextLine();
+                    
+                                Equipamento novoEquip = new Equipamento(equipamentos.size() + 1, desc, LocalDate.of(year, month, day), setor);
+                                equipamentos.add(novoEquip);
+                                System.out.println("Equipamento criado com sucesso!");
+                                break;
+                            }
+                    
+                            catch (Exception e) {
+                                System.out.println("nao foi possivel criar o equipamento");
+                                break;
+                            }
+                        } else {
+                            System.out.println("Funcionário não autorizado a criar equipamentos");
+                            break;
+                        }
+
                     case 9:
-                        // Funcionalidade adicional 2
-                        break;
+                        if(funcionarioLogado.getDepartamento().equals("RH")) {
+                            //  Adiciona um novo funcionario no sistema
+                            try {
+                                System.out.println("Informe o nome do funcionario: ");
+                                scanner.nextLine();
+                                String nome = scanner.nextLine();
+                                
+                                System.out.println("Informe o departamento: ");
+                                String departamento = scanner.nextLine();
+                
+                                Funcionario novoFuncionario = new Funcionario(funcionarios.size() + 1, nome, departamento);
+                                funcionarios.add(novoFuncionario);
+                                System.out.println("Funcionario foi adicionado com sucesso!");
+                                break;
+                            }
+                
+                            catch (Exception e) {
+                                System.out.println("nao foi adicionar o funcionario");
+                                break;
+                            }
+                        } else {
+                            System.out.println("Funcionário não autorizado a adicionar outros funcionarios");
+                            break;
+                        }
+
                     case 0:
                         // Sair
                         sair = true;
@@ -237,6 +287,7 @@ public class SistemaSuporte {
         return null;
     }
 
+    // Método para buscar equipamento pelo id
     public static Equipamento buscarEquipamentoPorId(int identificador) {
         for (Equipamento equipamento : equipamentos) {
             if (equipamento.getIdentificador() == identificador) {
