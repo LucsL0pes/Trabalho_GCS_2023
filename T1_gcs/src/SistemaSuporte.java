@@ -209,7 +209,7 @@ public class SistemaSuporte {
                         } else {
                             System.out.println("Chamados encontrados:");
                             for (Chamado chamado : chamadosEncontrados) {
-                                System.out.println(chamado.getId() + " - " + chamado.getInfoBusca());
+                                System.out.println(chamado.toString());
                             }
                         }
                         break;
