@@ -3,7 +3,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 import java.time.LocalDate;
-import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SistemaSuporte {
     private static List<Funcionario> funcionarios = new ArrayList<>();
@@ -102,14 +103,14 @@ public class SistemaSuporte {
                     }
     
                     case 2:
-                        if(funcionarioLogado.getDepartamento().equals("Suporte")){ 
-                            System.out.println("Chamados em andamento: ");
-                            for (Chamado chamado : chamados) {
-                                if (chamado.getFuncionarioAtendimento().equals(funcionarioLogado) && chamado.getStatus().equals("Em andamento")) {
-                                    System.out.println(" ID: " + chamado.getId() +
-                                            ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
-                                }
+                    if(funcionarioLogado.getDepartamento().equals("Suporte")){ 
+                        System.out.println("Chamados em andamento: ");
+                        for (Chamado chamado : chamados) {
+                            if (chamado.getFuncionarioAtendimento().equals(funcionarioLogado) && chamado.getStatus().equals("Em andamento")) {
+                                System.out.println(" ID: " + chamado.getId() +
+                                        ", data de abertura: " + chamado.getDataAbertura() + ", status: " + chamado.getStatus());
                             }
+                        }
                             
                             System.out.println("Digite qual chamado deseja atualizar: ");
                             int idChamado = scanner.nextInt();
@@ -121,7 +122,7 @@ public class SistemaSuporte {
                                 chamadoAtualizado.setStatusConcluido(resolucao);
                                 System.out.println(" ID: " + chamadoAtualizado.getId() +
                                 ", data de abertura: " + chamadoAtualizado.getDataAbertura() + ", status: " + chamadoAtualizado.getStatus() + ", resolucao: " + chamadoAtualizado.getResolucao());
-                                chamados.set(chamadoAtualizado.getId()-1, chamadoAtualizado);
+                                //chamados.set(chamadoAtualizado.getId()-1, chamadoAtualizado);
                                 
                             } else {
                                 System.out.println("ID não encontrado");
@@ -197,6 +198,7 @@ public class SistemaSuporte {
                         int chamados_abertos = 0;
                         int chamados_em_andamento = 0;
                         int chamados_concluidos = 0;
+                        ArrayList<LocalDate> datas = new ArrayList<LocalDate>();
 
                         for (Chamado chamado : chamados) {
                             if (chamado.getStatus().equals("Aberto")) {
@@ -207,15 +209,27 @@ public class SistemaSuporte {
                             }
                             if (chamado.getStatus().equals("Concluído")) {
                                 chamados_concluidos++;
+                                datas.add(chamado.getDataConclusao());
                             }
                         }
-
-                        System.out.println("Numeros: " + chamados_abertos + " " + chamados_em_andamento + " " + chamados_concluidos);
-                        for (Chamado chamado : chamados) {
-                            System.out.println("ID: " + chamado.getId() +
-                                    ", Data de abertura: " + chamado.getDataAbertura() +
-                                    ", Status: " + chamado.getStatus());
-                        }
+                        
+                        double percent_chamados_abertos = (double) chamados_abertos / total_chamados * 100;
+                        double percent_chamados_em_andamento = (double) chamados_em_andamento / total_chamados * 100;
+                        double percent_chamados_concluidos = (double) chamados_concluidos / total_chamados * 100;
+                        
+                        Set<LocalDate> data_unicas = new HashSet<LocalDate>(datas);
+                        int total_de_datas = datas.size();
+                        int valores_distintos = data_unicas.size();
+                        double aux_media_chamados_concluidos_por_dia = (double) total_de_datas / valores_distintos;
+                        double media_chamados_concluidos_por_dia = (Double.valueOf(aux_media_chamados_concluidos_por_dia).isNaN()) ? 0 : aux_media_chamados_concluidos_por_dia;
+                    
+                        // Total de chamados
+                        System.out.println("\nTotal de chamados registrados: " + total_chamados);
+                        // Status dos chamados
+                        System.out.println("\nChamados em aberto: " + chamados_abertos + " (" + String.format("%.2f", percent_chamados_abertos) + "%)");
+                        System.out.println("Chamados em andamento: " + chamados_em_andamento + " (" + String.format("%.2f", percent_chamados_em_andamento) + "%)");
+                        System.out.println("Chamados concluídos: " + chamados_concluidos + " (" + String.format("%.2f", percent_chamados_concluidos) + "%)");
+                        System.out.println("\nMédia de chamados Concluídos por dia: " + media_chamados_concluidos_por_dia +'\n');
                         break;
                     case 8:
                         // Funcionalidade adicional 1
