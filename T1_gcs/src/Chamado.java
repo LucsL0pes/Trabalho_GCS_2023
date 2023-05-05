@@ -110,6 +110,15 @@ class Chamado {
         this.resolucao = resolucao;
     }
 
+    public String getInfoBusca() {
+        return this.funcionarioAbertura.getNome() + " " +
+               this.equipamento.getDescricao() + " " +
+               this.equipamento.getSetor() + " " +
+               this.descricao + " " +
+               this.resolucao;
+    }
+    
+
     public String toString() {
         String chamadoString = "ID: " + this.id + "\n";
         chamadoString += "Funcionário de abertura: " + this.funcionarioAbertura.getNome() + "\n";
