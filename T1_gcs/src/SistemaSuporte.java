@@ -187,22 +187,17 @@ public class SistemaSuporte {
                     
                     case 6:
                         //  Localizar chamados por palavra-chave
-                        System.out.println("Digite palavra chave do chamado que deseja buscar: ");
-                        String palavraChave = scanner.nextLine();
-                        palavraChave = scanner.nextLine();
+                        System.out.print("Digite a palavra-chave que deseja buscar nos chamados: ");
+                        String palavraChave = scanner.next();
                         List<Chamado> chamadosEncontrados = buscarChamadosPorPalavraChave(palavraChave);
                         if (chamadosEncontrados.isEmpty()) {
-                            System.out.println("Nenhum chamado encontrado com a palavra-chave informada.");
+                            System.out.println("Nenhum chamado encontrado para a palavra-chave informada.");
                         } else {
                             System.out.println("Chamados encontrados:");
                             for (Chamado chamado : chamadosEncontrados) {
-                                System.out.println(" ID: " + chamado.getId() +
-                                    ", funcionário: " + chamado.getFuncionarioAbertura().getNome() +
-                                    ", equipamento: " + chamado.getEquipamento() +
-                                    ", setor: " + chamado.getFuncionarioAbertura().getDepartamento() +
-                                    ", resolução: " + chamado.getResolucao());
-                                }
+                                System.out.println(chamado.getId() + " - " + chamado.getInfoBusca());
                             }
+                        }
                         break;
                     case 7:
                         //  Visualizar painel de dados
@@ -329,19 +324,17 @@ public class SistemaSuporte {
     }
 
     // Funcionalidade 7 - Busca equipamento por palavra-chave
+    
     public static List<Chamado> buscarChamadosPorPalavraChave(String palavraChave) {
         List<Chamado> chamadosEncontrados = new ArrayList<>();
         for (Chamado chamado : chamados) {
-            if (chamado.getFuncionarioAbertura().getNome().toLowerCase().contains(palavraChave.toLowerCase())
-                    /*|| chamado.getEquipamento().toLowerCase().contains(palavraChave.toLowerCase())*/
-                    || chamado.getFuncionarioAbertura().getDepartamento().toLowerCase().contains(palavraChave.toLowerCase())
-                    || chamado.getDescricao().toLowerCase().contains(palavraChave.toLowerCase())
-                    || chamado.getResolucao().toLowerCase().contains(palavraChave.toLowerCase())) {
+            if (chamado.getInfoBusca().toLowerCase().contains(palavraChave.toLowerCase())) {
                 chamadosEncontrados.add(chamado);
             }
         }
         return chamadosEncontrados;
     }
-
+    
+    
 }
 
