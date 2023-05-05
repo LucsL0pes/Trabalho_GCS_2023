@@ -36,6 +36,16 @@ public class SistemaSuporte {
         }
         System.out.print("Digite o ID do funcionário que está usando o sistema: ");
         int idFuncionario = scanner.nextInt();
+        while(buscarFuncionarioPorId(idFuncionario) == null) {
+            System.out.println("Usuário invalido, digite um ID válido");
+            System.out.println("Lista de funcionários:");
+            for (Funcionario funcionario : funcionarios) {
+                System.out.println("ID: " + funcionario.getId() +
+                    ", Nome: " + funcionario.getNome() +
+                    ", Departamento: " + funcionario.getDepartamento());
+            }
+            idFuncionario = scanner.nextInt();
+        }
 
         funcionarioLogado = buscarFuncionarioPorId(idFuncionario);
         if (funcionarioLogado != null) {
