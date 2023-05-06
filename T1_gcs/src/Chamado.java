@@ -3,7 +3,7 @@ import java.time.LocalDate;
 class Chamado {
     private int id;
     private Funcionario funcionarioAbertura;
-    private String equipamento;
+    private Equipamento equipamento;
     private LocalDate dataAbertura;
     private String descricao;
     private String status;
@@ -12,7 +12,7 @@ class Chamado {
     private String resolucao;
 
     // Construtor
-    public Chamado(int id, Funcionario funcionarioAbertura, String equipamento, String descricao) {
+    public Chamado(int id, Funcionario funcionarioAbertura, Equipamento equipamento, String descricao) {
         this.id = id;
         this.funcionarioAbertura = funcionarioAbertura;
         this.equipamento = equipamento;
@@ -32,11 +32,11 @@ class Chamado {
         this.funcionarioAbertura = funcionarioAbertura;
     }
 
-    public String getEquipamento() {
+    public Equipamento getEquipamento() {
         return equipamento;
     }
 
-    public void setEquipamento(String equipamento) {
+    public void setEquipamento(Equipamento equipamento) {
         this.equipamento = equipamento;
     }
 
@@ -108,5 +108,31 @@ class Chamado {
         this.status = "Concluído";
         this.dataConclusao = LocalDate.now(); // Data de conclusão é a data atual
         this.resolucao = resolucao;
+    }
+
+    public String getInfoBusca() {
+        return this.funcionarioAbertura.getNome() + " " +
+               this.equipamento.getDescricao() + " " +
+               this.equipamento.getSetor() + " " +
+               this.descricao + " " +
+               this.resolucao;
+    }
+    
+
+    public String toString() {
+        String chamadoString = "ID: " + this.id + "\n";
+        chamadoString += "Funcionário de abertura: " + this.funcionarioAbertura.getNome() + "\n";
+        chamadoString += "Equipamento: " + this.equipamento.getDescricao() + "\n";
+        chamadoString += "Data de abertura: " + this.dataAbertura + "\n";
+        chamadoString += "Descrição: " + this.descricao + "\n";
+        chamadoString += "Status: " + this.status + "\n";
+        if (this.funcionarioAtendimento != null) {
+            chamadoString += "Funcionário de atendimento: " + this.funcionarioAtendimento.getNome() + "\n";
+        }
+        if (this.dataConclusao != null) {
+            chamadoString += "Data de conclusão: " + this.dataConclusao + "\n";
+            chamadoString += "Resolução: " + this.resolucao + "\n";
+        }
+        return chamadoString;
     }
 }
